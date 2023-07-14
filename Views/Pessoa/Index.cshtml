@@ -1,0 +1,68 @@
+﻿@model List<Pessoa>
+
+@{
+    ViewData["Title"] = "Pessoas";
+}
+
+<div class="text-center">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <a class="btn btn-primary" role="button" asp-controller="Pessoa" asp-action="Create">Cadastro de Pessoas</a>
+    </div>
+    <br>
+
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+            @TempData["MensagemSucesso"]
+        </div>
+    }
+
+    @if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+            @TempData["MensagemErro"]
+        </div>
+    }
+
+    <br />
+
+    <h1 class="display-4">Pessoas Cadastro</h1>
+    <br>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Data de Nascimento</th>
+                <th scope="col">CPF</th>
+                <th scope="col">Renda</th>
+                <th scope="col">Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any()) // contém algo?
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@item.Id</th>
+                        <td>@item.NomeCompleto</td>
+                        <td>@item.DataNascimento</td>
+                        <td>@item.CPF</td>
+                        <td>@item.RendaValor</td>
+                        <td>
+                            <div class="bd-example" role="group">
+                                <a href="@Url.Action("Edit", "Pessoa", new { item.Id })" class="btn btn-outline-warning btn-lg" role="button" aria-disabled="true">Alterar</a>
+                                <a href="@Url.Action("Delete", "Pessoa", new { item.Id })" class="btn btn-outline-danger btn-lg" role="button" aria-disabled="true">Excluir</a>                                
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

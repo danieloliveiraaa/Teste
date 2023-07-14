@@ -1,0 +1,72 @@
+﻿@model Pessoa;
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Create Pessoa</h1>
+</div>
+
+<form asp-controller="Pessoa" asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="nome" class="form-label">Nome:</label>
+        <input type="text" asp-for="NomeCompleto" class="form-control" placeholder="Digite o nome">
+        @Html.ValidationMessageFor(x => x.NomeCompleto, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label for="nascimento" class="form-label">Data de Nascimento:</label>
+        <input type="date" id="data" asp-for="DataNascimento" class="form-control" placeholder="Digite a data de nascimento">
+        @Html.ValidationMessageFor(x => x.DataNascimento, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label for="renda" class="form-label">Renda:</label>
+        <input type="text" id="renda" asp-for="RendaValor" class="form-control" placeholder="Digite a renda">
+        @Html.ValidationMessageFor(x => x.RendaValor, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label for="cpf" class="form-label">CPF:</label>
+        <input type="text" id="cpf" asp-for="CPF" class="form-control" placeholder="Digite o CPF">
+        @Html.ValidationMessageFor(x => x.CPF, "", new { @class = "text-danger" })
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+    <a class="btn btn-secondary btn-block" asp-controller="Pessoa" asp-action="Index" role="button">Voltar</a>
+</form>
+
+@*Formatação de CPF*@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#cpf').on('input', function () {
+            var cpf = $(this).val();
+            cpf = cpf.replace(/\D/g, ''); // Removendo todos os caracteres não numéricos
+
+            if (cpf.length > 11) {
+                cpf = cpf.slice(0, 11); // Limita o tamanho máximo do CPF a 11 caracteres
+            }
+
+            // Formatação do CPF
+            cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+            cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+            cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+
+            // Atualiza o valor do campo de entrada
+            $(this).val(cpf);
+        });
+
+        $("#renda").on("input", function () {
+            var valor = $(this).val();
+
+            // Remove qualquer caractere que não seja número
+            valor = valor.replace(/[^0-9]/g, '');
+
+            // Atualiza o valor do campo com a versão filtrada
+            $(this).val(valor);
+        });
+    });
+</script>
